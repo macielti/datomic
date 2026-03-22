@@ -14,4 +14,4 @@ pom.xml.asc
 /.idea/
 /.clj-kondo/.cache/
 /.lsp/.cache/
-datomic-component.iml
+datomic.iml
