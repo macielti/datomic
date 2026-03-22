@@ -1,7 +1,7 @@
 (ns datomic-test
   (:require [clojure.test :refer [is testing]]
-            [datomic.component :as component.datomic]
             [datomic.api :as d]
+            [datomic.component :as component.datomic]
             [integrant.core :as ig]
             [matcher-combinators.test :refer [match?]]
             [schema.test :as s])

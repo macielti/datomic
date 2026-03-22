@@ -38,8 +38,8 @@
                         (str "datomic:mem://" (random-uuid)))
         connection (dh/with-retry {:retry-on    Exception
                                    :max-retries 3}
-                                  (log/info ::database-created? (d/create-database datomic-uri))
-                                  (d/connect datomic-uri))]
+                     (log/info ::database-created? (d/create-database datomic-uri))
+                     (d/connect datomic-uri))]
     @(d/transact connection (flatten schemas))
     connection))
 
