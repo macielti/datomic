@@ -9,9 +9,9 @@
 
 (s/defn mocked-datomic :- LocalConnection
   [datomic-schemas :- datomic.schema/DatomicSchemas]
-  (let [datomic-uri (str "datomic:mem://" (random-uuid))
-        connection (do (d/create-database datomic-uri)
-                       (d/connect datomic-uri))]
+  (let [uri (str "datomic:mem://" (random-uuid))
+        _ (d/create-database uri)
+        connection (d/connect uri)]
     @(d/transact connection (flatten datomic-schemas))
     connection))
 
@@ -34,12 +34,12 @@
 (defmethod ig/init-key ::datomic
   [_ {:keys [components schemas]}]
   (log/info :starting ::datomic)
-  (let [datomic-uri (or (-> components :config :datomic-uri)
-                        (str "datomic:mem://" (random-uuid)))
+  (let [uri (or (-> components :config :datomic-uri)
+                (str "datomic:mem://" (random-uuid)))
         connection (dh/with-retry {:retry-on    Exception
                                    :max-retries 3}
-                     (log/info ::database-created? (d/create-database datomic-uri))
-                     (d/connect datomic-uri))]
+                     (d/create-database uri)
+                     (d/connect uri))]
     @(d/transact connection (flatten schemas))
     connection))
 
